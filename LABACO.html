@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jiel Portfolio — Spoken Word Poetry & Dance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #060606;
+      --bg-card: #0c0a08;
+      --bg-input: #11100f;
+      --orange-1: #ff5500;
+      --orange-2: #ff8800;
+      --orange-glow: #ffae00;
+      --orange-grad: linear-gradient(90deg, #ff4d00 0%, #ff8c00 100%);
+      --text-main: #ffffff;
+      --text-muted: #b8b5b2;
+      --text-dim: #777470;
+      --border-subtle: rgba(255, 110, 0, 0.22);
+      --glow-orange: 0 0 28px rgba(255, 102, 0, 0.38);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .logo {
+      font-family: 'Syne', 'Space Grotesk', sans-serif;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--orange-grad);
+      box-shadow: 0 0 14px rgba(255, 140, 0, 0.85);
+      z-index: 2000;
+      transition: width 0.08s linear;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(6, 6, 6, 0.86);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 115, 0, 0.14);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    header.scrolled {
+      background: rgba(6, 6, 6, 0.96);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.65);
+    }
+
+    .nav-container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .logo span {
+      color: var(--orange-2);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    nav a {
+      font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+      color: #d4d2cf;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      position: relative;
+      transition: color 0.25s ease;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 2px;
+      background: var(--orange-grad);
+      transition: width 0.28s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--text-main);
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 26px;
+      border-radius: 999px;
+      font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .btn-primary {
+      background: var(--orange-grad);
+      color: #ffffff;
+      box-shadow: 0 6px 24px rgba(255, 115, 0, 0.42), 0 0 14px rgba(255, 165, 0, 0.22);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 34px rgba(255, 140, 0, 0.65), 0 0 22px rgba(255, 175, 0, 0.35);
+    }
+
+    .btn-outline {
+      background: rgba(255, 115, 0, 0.06);
+      color: var(--orange-2);
+      border: 1.5px solid rgba(255, 130, 0, 0.62);
+      box-shadow: 0 0 16px rgba(255, 105, 0, 0.14);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 125, 0, 0.16);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 120, 0, 0.32);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.from-left {
+      transform: translateX(-42px) translateY(16px);
+    }
+
+    .reveal.from-right {
+      transform: translateX(42px) translateY(16px);
+    }
+
+    .reveal.scale-in {
+      transform: scale(0.92) translateY(24px);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+
+    section {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 96px 28px;
+      position: relative;
+    }
+
+    .section-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.14;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(circle at center, black 45%, transparent 95%);
+      -webkit-mask-image: radial-gradient(circle at center, black 45%, transparent 95%);
+    }
+
+    section > *:not(.section-bg) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      min-height: calc(100vh - 76px);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 48px;
+      padding-top: 48px;
+      padding-bottom: 72px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 5vw, 4.15rem);
+      font-weight: 800;
+      line-height: 1.07;
+      letter-spacing: -0.03em;
+      margin-bottom: 26px;
+    }
+
+    .hero-title .accent {
+      color: var(--orange-1);
+      text-shadow: 0 0 24px rgba(255, 110, 0, 0.48);
+    }
+
+    .hero-title .dot {
+      color: var(--text-main);
+    }
+
+    .hero-lead {
+      font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.15rem, 1.8vw, 1.42rem);
+      font-weight: 700;
+      color: #f3f1ee;
+      margin-bottom: 18px;
+      max-width: 580px;
+    }
+
+    .hero-lead .name-accent {
+      color: var(--orange-1);
+    }
+
+    .hero-sub {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 560px;
+      margin-bottom: 28px;
+    }
+
+    .social-row {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .social-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 130, 0, 0.62);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--orange-2);
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-decoration: none;
+      background: rgba(255, 110, 0, 0.05);
+      box-shadow: 0 0 14px rgba(255, 110, 0, 0.14);
+      transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .social-circle:hover {
+      transform: translateY(-3px);
+      background: var(--orange-grad);
+      color: #fff;
+      box-shadow: 0 8px 26px rgba(255, 125, 0, 0.58);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .portrait-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Screenshot-matched fiery amber-orange radial halo (not plain) */
+    .portrait-ring {
+      position: relative;
+      width: clamp(270px, 34vw, 390px);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      padding: 12px;
+      background: radial-gradient(
+        circle at 50% 48%,
+        #ffbe1a 0%,
+        #ff8800 52%,
+        #ff4d00 72%,
+        rgba(255, 65, 0, 0.35) 84%,
+        transparent 94%
+      );
+      box-shadow:
+        0 0 28px rgba(255, 180, 20, 0.85),
+        0 0 68px rgba(255, 115, 0, 0.72),
+        0 0 120px rgba(255, 72, 0, 0.45),
+        0 0 175px rgba(255, 55, 0, 0.22),
+        inset 0 0 30px rgba(255, 195, 50, 0.55);
+      transition: transform 0.2s ease-out, box-shadow 0.35s ease;
+      will-change: transform;
+      animation: screenshotGlow 4.2s ease-in-out infinite;
+    }
+
+    .portrait-ring:hover {
+      box-shadow:
+        0 0 36px rgba(255, 195, 35, 0.95),
+        0 0 82px rgba(255, 125, 0, 0.82),
+        0 0 140px rgba(255, 80, 0, 0.54),
+        0 0 195px rgba(255, 60, 0, 0.28),
+        inset 0 0 36px rgba(255, 210, 80, 0.65);
+    }
+
+    .portrait-ring::before {
+      content: "";
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(255, 165, 25, 0.42) 38%,
+        rgba(255, 95, 0, 0.22) 60%,
+        rgba(255, 60, 0, 0.08) 74%,
+        transparent 84%
+      );
+      filter: blur(16px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .portrait-ring img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+      background: #181412;
+      box-shadow: 0 0 22px rgba(255, 140, 0, 0.45);
+      filter: contrast(1.07) saturate(1.14);
+    }
+
+    @keyframes screenshotGlow {
+      0%, 100% {
+        box-shadow:
+          0 0 28px rgba(255, 180, 20, 0.85),
+          0 0 68px rgba(255, 115, 0, 0.72),
+          0 0 120px rgba(255, 72, 0, 0.45),
+          0 0 175px rgba(255, 55, 0, 0.22),
+          inset 0 0 30px rgba(255, 195, 50, 0.55);
+      }
+      50% {
+        box-shadow:
+          0 0 34px rgba(255, 190, 30, 0.95),
+          0 0 80px rgba(255, 125, 0, 0.8),
+          0 0 138px rgba(255, 80, 0, 0.52),
+          0 0 190px rgba(255, 60, 0, 0.26),
+          inset 0 0 35px rgba(255, 205, 70, 0.62);
+      }
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .section-heading {
+      font-size: clamp(2rem, 3.6vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.14;
+      margin-bottom: 22px;
+    }
+
+    .section-heading .accent {
+      color: var(--orange-1);
+      text-shadow: 0 0 22px rgba(255, 110, 0, 0.38);
+    }
+
+    .about-copy p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
+
+    .center-title {
+      text-align: center;
+      margin-bottom: 54px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .skill-card {
+      border-radius: 26px;
+      padding: 42px 30px;
+      text-align: center;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .skill-card.solid-orange {
+      background: linear-gradient(155deg, #ff8800 0%, #ff5500 58%, #e63e00 100%);
+      color: #090909;
+      box-shadow: 0 14px 42px rgba(255, 110, 0, 0.42), 0 0 24px rgba(255, 155, 0, 0.22);
+    }
+
+    .skill-card.solid-orange:hover {
+      box-shadow: 0 22px 56px rgba(255, 125, 0, 0.6), 0 0 32px rgba(255, 175, 0, 0.32);
+    }
+
+    .skill-card.dark-glow {
+      background: var(--bg-card);
+      border: 1.5px solid rgba(255, 135, 0, 0.78);
+      box-shadow: 0 0 44px rgba(255, 115, 0, 0.34), 0 0 20px rgba(255, 165, 0, 0.16);
+      color: var(--text-main);
+    }
+
+    .skill-card.dark-glow:hover {
+      box-shadow: 0 0 60px rgba(255, 135, 0, 0.52), 0 0 28px rgba(255, 180, 0, 0.24);
+    }
+
+    .skill-icon {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    .skill-card.dark-glow .skill-icon {
+      color: var(--orange-2);
+    }
+
+    .skill-card h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+
+    .skill-card.dark-glow h3 {
+      color: var(--orange-2);
+    }
+
+    .skill-card p {
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .skill-card.solid-orange p {
+      color: #120d0a;
+      font-weight: 500;
+    }
+
+    .skill-card.dark-glow p {
+      color: var(--text-muted);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    /* Project cards with screenshot-matched fiery orange-amber glow */
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 125, 0, 0.36);
+      border-radius: 26px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 0 24px rgba(255, 105, 0, 0.12);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 150, 0, 0.85);
+      box-shadow:
+        0 16px 46px rgba(255, 115, 0, 0.35),
+        0 0 34px rgba(255, 165, 0, 0.24);
+    }
+
+    .project-card.featured-glow {
+      border-color: rgba(255, 145, 0, 0.82);
+      box-shadow:
+        0 0 46px rgba(255, 115, 0, 0.36),
+        0 0 22px rgba(255, 175, 0, 0.2);
+    }
+
+    .project-card.featured-glow:hover {
+      box-shadow:
+        0 18px 54px rgba(255, 125, 0, 0.48),
+        0 0 38px rgba(255, 180, 0, 0.3);
+    }
+
+    .project-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #141210;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 140, 0, 0.2);
+      box-shadow: 0 0 20px rgba(255, 105, 0, 0.14);
+    }
+
+    .project-card.featured-glow .project-thumb,
+    .project-card:hover .project-thumb {
+      border-color: rgba(255, 155, 0, 0.45);
+      box-shadow: 0 0 28px rgba(255, 125, 0, 0.28);
+    }
+
+    .project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.45s ease;
+    }
+
+    .project-card:hover .project-thumb img {
+      transform: scale(1.04);
+    }
+
+    .project-title {
+      text-align: center;
+      font-size: 1.42rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .project-meta {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .project-meta strong {
+      color: #e6e4e1;
+    }
+
+    .project-btn-wrap {
+      text-align: center;
+    }
+
+    .contact-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 48px;
+    }
+
+    .contact-header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .contact-box {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 125, 0, 0.38);
+      border-radius: 28px;
+      padding: 36px;
+      box-shadow: 0 0 56px rgba(255, 110, 0, 0.18);
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-control {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 15px 18px;
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .form-control::placeholder {
+      color: var(--text-dim);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--orange-2);
+      box-shadow: 0 0 0 3px rgba(255, 145, 0, 0.24), 0 0 18px rgba(255, 115, 0, 0.2);
+    }
+
+    textarea.form-control {
+      min-height: 145px;
+      resize: vertical;
+    }
+
+    .form-status {
+      margin-top: 14px;
+      font-size: 0.92rem;
+      color: var(--orange-2);
+      min-height: 22px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+      padding: 28px 20px;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 3000;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #100e0c;
+      border: 1px solid rgba(255, 135, 0, 0.62);
+      border-radius: 24px;
+      max-width: 540px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 0 54px rgba(255, 115, 0, 0.28), 0 20px 60px rgba(0, 0, 0, 0.85);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    .modal-card h3 {
+      font-size: 1.6rem;
+      color: var(--orange-2);
+      margin-bottom: 10px;
+    }
+
+    .modal-card p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 960px) {
+      .hero,
+      .about-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-lead,
+      .hero-sub {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .social-row,
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .portrait-wrap {
+        order: -1;
+      }
+
+      .skills-grid,
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      nav ul {
+        display: none;
+      }
+
+      .contact-box {
+        padding: 24px 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <header id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="logo">Jiel <span>Portfolio</span></a>
+      <nav>
+        <ul>
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#skills" class="nav-link">Skills</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+      <a href="#contact" class="btn btn-primary">Contact Me</a>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="section-bg" style="background-image: url('background_1.jpg');"></div>
+
+    <div>
+      <h1 class="hero-title reveal" style="transition-delay: 0.05s;">
+        Where Words Find<br>
+        Rhythm and<br>
+        Movement Finds a<br>
+        <span class="accent">Voice</span><span class="dot">.</span>
+      </h1>
+
+      <p class="hero-lead reveal" style="transition-delay: 0.15s;">
+        Hi I'm <span class="name-accent">John Ivan E. Labaco</span>, a spoken word poet and dancer weaving stories through the synergy of motion and verse.
+      </p>
+
+      <p class="hero-sub reveal" style="transition-delay: 0.25s;">
+        Exploring the narratives that live in the muscles and the spaces between beats, while giving breath to the raw, unspoken truths of the human experience.
+      </p>
+
+      <div class="social-row reveal" style="transition-delay: 0.32s;">
+        <a href="https://github.com" target="_blank" rel="noopener" class="social-circle" aria-label="GitHub">GH</a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-circle" aria-label="LinkedIn">IN</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="social-circle" aria-label="Instagram">IG</a>
+        <a href="https://twitter.com" target="_blank" rel="noopener" class="social-circle" aria-label="Twitter">TW</a>
+      </div>
+
+      <div class="hero-actions reveal" style="transition-delay: 0.4s;">
+        <a href="#projects" class="btn btn-primary">Watch My Performance</a>
+        <a href="#projects" class="btn btn-outline">Read My Poetry</a>
+      </div>
+    </div>
+
+    <div class="portrait-wrap reveal scale-in" style="transition-delay: 0.2s;">
+      <div class="portrait-ring parallax-ring" data-speed="0.06">
+        <img src="profile_pic.jpg" alt="John Ivan E. Labaco Portrait" />
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-bg" style="background-image: url('background_2.jpg');"></div>
+
+    <div class="about-grid">
+      <div class="portrait-wrap reveal from-left">
+        <div class="portrait-ring parallax-ring" data-speed="-0.05">
+          <img src="profile_pic.jpg" alt="John Ivan E. Labaco About Portrait" />
+        </div>
+      </div>
+
+      <div class="about-copy reveal from-right">
+        <h2 class="section-heading">
+          The Intersection of<br>
+          Silence and <span class="accent">Sound.</span>
+        </h2>
+        <p>
+          My creative journey is built on two pillars: the movement of the body and the weight of the written word. As a dancer, I explore the narratives that live in the muscles and the spaces between beats. As a spoken word poet, I give breath to the raw, unspoken truths of the human experience. I believe that dance and poetry are two sides of the same coin—both are attempts to make sense of what we feel but cannot always name.
+        </p>
+        <p>
+          Whether I am on stage performing a poem or moving through a choreography, my goal remains the same: to create a space for vulnerability, expression, and connection. I don't just perform; I tell stories that resonate in the heart and settle in the soul.
+        </p>
+        <a href="#skills" class="btn btn-primary">Read More</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2 class="section-heading center-title reveal">Skills &amp; Craft</h2>
+
+    <div class="skills-grid">
+      <article class="skill-card solid-orange reveal" style="transition-delay: 0.08s;">
+        <span class="skill-icon">&#9670;</span>
+        <h3>The Movement (Dance)</h3>
+        <p>
+          Capturing energy and rhythm through motion. From contemporary flow to rhythmic storytelling, I use dance as a physical manifestation of emotion.
+        </p>
+      </article>
+
+      <article class="skill-card dark-glow reveal" style="transition-delay: 0.18s;">
+        <span class="skill-icon">&lt;/&gt;</span>
+        <h3>The Verse (Spoken Poetry)</h3>
+        <p>
+          Crafting poems that are meant to be heard. My work focuses on themes of self-discovery, love, and human emotion, performed with intentionality and raw sincerity.
+        </p>
+      </article>
+
+      <article class="skill-card solid-orange reveal" style="transition-delay: 0.28s;">
+        <span class="skill-icon">{ }</span>
+        <h3>The Synergy (Performance Art)</h3>
+        <p>
+          Where dance and poetry collide. I create hybrid performances where the poem dictates the movement and the movement illustrates the poem.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2 class="section-heading center-title reveal">Projects</h2>
+
+    <div class="projects-grid">
+      <article class="project-card reveal" style="transition-delay: 0.05s;">
+        <div>
+          <div class="project-thumb">
+            <img src="dc project_1.jpg" alt="Talbog 2025" />
+          </div>
+          <h3 class="project-title">Talbog 2025</h3>
+          <p class="project-meta">
+            <strong>Category:</strong> Dance Performance | <strong>Role:</strong> Dancer &amp; Performer. A high-energy stage piece for Nabangka NHS Intramural Games capturing rhythm, collective drive, and movement in motion.
+          </p>
+        </div>
+        <div class="project-btn-wrap">
+          <button class="btn btn-primary open-modal"
+                  data-title="Talbog 2025"
+                  data-desc="High-energy stage piece for Nabangka NHS Intramural Games capturing rhythm, collective drive, and movement in motion.">
+            Watch/Read Now
+          </button>
+        </div>
+      </article>
+
+      <article class="project-card featured-glow reveal" style="transition-delay: 0.14s;">
+        <div>
+          <div class="project-thumb">
+            <img src="dc project_2.jpg" alt="Gas Patrol" />
+          </div>
+          <h3 class="project-title">Gas Patrol</h3>
+          <p class="project-meta">
+            <strong>Category:</strong> Choreography &amp; Group Dance | <strong>Role:</strong> Dancer &amp; Choreographer. A piece exploring synchronization, dynamic transitions, and expressive body movement with the crew.
+          </p>
+        </div>
+        <div class="project-btn-wrap">
+          <button class="btn btn-primary open-modal"
+                  data-title="Gas Patrol"
+                  data-desc="Choreography and group dance exploring synchronization, dynamic transitions, and expressive body movement with the crew.">
+            Watch/Read Now
+          </button>
+        </div>
+      </article>
+
+      <article class="project-card reveal" style="transition-delay: 0.23s;">
+        <div>
+          <div class="project-thumb">
+            <img src="dc project_3.jpg" alt="Rock in Hip-Hop" />
+          </div>
+          <h3 class="project-title">Rock in Hip-Hop</h3>
+          <p class="project-meta">
+            <strong>Category:</strong> Contemporary &amp; Crew Piece | <strong>Role:</strong> Performer &amp; Co-Creator. A performance highlighting contrast, precision, and emotional storytelling through structured movement.
+          </p>
+        </div>
+        <div class="project-btn-wrap">
+          <button class="btn btn-primary open-modal"
+                  data-title="Rock in Hip-Hop"
+                  data-desc="Contemporary and crew performance highlighting contrast, precision, and emotional storytelling through structured movement.">
+            Watch/Read Now
+          </button>
+        </div>
+      </article>
+
+      <article class="project-card reveal" style="transition-delay: 0.08s;">
+        <div>
+          <div class="project-thumb">
+            <img src="sp project_4.jpg" alt="Nakalipas" />
+          </div>
+          <h3 class="project-title">Nakalipas</h3>
+          <p class="project-meta">
+            <strong>Category:</strong> Spoken Word Poetry | <strong>Role:</strong> Writer &amp; Performer. A spoken piece by Jiel reflecting on moments that have passed, time moving forward, and the quiet weight of memory.
+          </p>
+        </div>
+        <div class="project-btn-wrap">
+          <button class="btn btn-primary open-modal"
+                  data-title="Nakalipas — Likha ni: JIEL"
+                  data-desc="A spoken word piece reflecting on moments that have passed, time moving forward, and the quiet weight of memory.">
+            Watch/Read Now
+          </button>
+        </div>
+      </article>
+
+      <article class="project-card featured-glow reveal" style="transition-delay: 0.17s;">
+        <div>
+          <div class="project-thumb">
+            <img src="sp project_5.jpg" alt="Alaala" />
+          </div>
+          <h3 class="project-title">Alaala</h3>
+          <p class="project-meta">
+            <strong>Category:</strong> Spoken Word Poetry | <strong>Role:</strong> Writer &amp; Performer. A piece by Jiel delving into lingering memories, emotional echoes, and what stays behind after moments fade.
+          </p>
+        </div>
+        <div class="project-btn-wrap">
+          <button class="btn btn-primary open-modal"
+                  data-title="Alaala — by: JIEL"
+                  data-desc="Spoken word poetry delving into lingering memories, emotional echoes, and what stays behind after moments fade.">
+            Watch/Read Now
+          </button>
+        </div>
+      </article>
+
+      <article class="project-card reveal" style="transition-delay: 0.26s;">
+        <div>
+          <div class="project-thumb">
+            <img src="sp project_6.jpg" alt="Pagtatapos" />
+          </div>
+          <h3 class="project-title">Pagtatapos</h3>
+          <p class="project-meta">
+            <strong>Category:</strong> Spoken Word Poetry | <strong>Role:</strong> Writer &amp; Performer. A piece by Jiel exploring closure, endings, and the transition from what was into whatever comes next.
+          </p>
+        </div>
+        <div class="project-btn-wrap">
+          <button class="btn btn-primary open-modal"
+                  data-title="Pagtatapos — by: JIEL"
+                  data-desc="Spoken word poetry exploring closure, endings, and the transition from what was into whatever comes next.">
+            Watch/Read Now
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-header reveal">
+      <h2 class="section-heading">
+        Let’s collaborate and create something<br>
+        meaningful.
+      </h2>
+      <p>
+        Whether you need a performer for your event, a collaborator for a creative project, or a stage artist and spoken word performer, I'd love to connect and hear your ideas. Ready to start? Send me a message and let's craft something beautiful together.
+      </p>
+    </div>
+
+    <div class="contact-box reveal" style="transition-delay: 0.12s;">
+      <form id="contactForm">
+        <div class="form-group">
+          <input type="text" class="form-control" id="name" placeholder="Your Name" required />
+        </div>
+        <div class="form-group">
+          <input type="email" class="form-control" id="email" placeholder="Your Email (or your contact email)" required />
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" id="message" placeholder="Your Message (include your social links or event details)" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    Jiel Portfolio — Spoken Word Poetry &amp; Dance
+  </footer>
+
+  <div class="modal-backdrop" id="projectModal" aria-hidden="true">
+    <div class="modal-card">
+      <button class="modal-close" id="closeModal" aria-label="Close modal">&times;</button>
+      <h3 id="modalTitle">Project Title</h3>
+      <p id="modalDesc">Project description goes here.</p>
+      <button class="btn btn-primary" id="modalDoneBtn">Close Preview</button>
+    </div>
+  </div>
+
+  <script>
+    const scrollProgress = document.getElementById('scrollProgress');
+    const navbar = document.getElementById('navbar');
+    const parallaxRings = document.querySelectorAll('.parallax-ring');
+
+    function onScroll() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      scrollProgress.style.width = `${progress}%`;
+
+      if (scrollTop > 24) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+
+      parallaxRings.forEach((ring) => {
+        const rect = ring.getBoundingClientRect();
+        const speed = parseFloat(ring.dataset.speed || 0.05);
+        const offset = (window.innerHeight / 2 - (rect.top + rect.height / 2)) * speed;
+        ring.style.transform = `translateY(${offset.toFixed(1)}px)`;
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.14,
+        rootMargin: '0px 0px -40px 0px'
+      }
+    );
+
+    revealElements.forEach((el) => revealObserver.observe(el));
+
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            navLinks.forEach((link) => {
+              link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+            });
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
+
+    sections.forEach((sec) => sectionObserver.observe(sec));
+
+    const modal = document.getElementById('projectModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const closeModal = document.getElementById('closeModal');
+    const modalDoneBtn = document.getElementById('modalDoneBtn');
+
+    document.querySelectorAll('.open-modal').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        modalTitle.textContent = btn.dataset.title;
+        modalDesc.textContent = btn.dataset.desc;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+      });
+    });
+
+    function hideModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    closeModal.addEventListener('click', hideModal);
+    modalDoneBtn.addEventListener('click', hideModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) hideModal();
+    });
+
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      formStatus.textContent = `Thanks, ${name}! Your message has been prepared. Connect this form to Formspree, EmailJS, or your backend to receive submissions.`;
+      contactForm.reset();
+    });
+  </script>
+</body>
+</html>
